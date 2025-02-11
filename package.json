@@ -1,0 +1,29 @@
+{
+  "name": "part4-blog-list-app",
+  "version": "1.0.0",
+  "description": "part4 exercises of fullstack open",
+  "keywords": [
+    "javascript",
+    "nodeJS",
+    "expressJS"
+  ],
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  }
+}
