@@ -1,9 +1,9 @@
 const { test, describe } = require('node:test')
 const assert = require('node:assert')
 
-const favoriteBlog = require('../utils/list_helper').favoriteBlogs
+const mostBlogs = require('../utils/list_helper').mostBlogs
 
-describe('Favorite Blogs', () => {
+describe('The author with more blogs', () => {
   const blogs = [
     {
       title: 'Canonical string reduction',
@@ -16,11 +16,10 @@ describe('Favorite Blogs', () => {
       likes: 9
     }
   ]
-  test('The favorite blog is the blog with more likes', () => {
-    assert.deepEqual(favoriteBlog(blogs), {
-      title: 'Canonical string reduction',
+  test('This author has 2 blogs', () => {
+    assert.deepEqual(mostBlogs(blogs), {
       author: 'Edsger W. Dijkstra',
-      likes: 12
+      blogs: 2
     })
   })
 })
