@@ -40,12 +40,34 @@ test('blogs are returned as json', async () => {
 test('Unique identifier property of the blog is id', async () => {
   const response = await api.get('/api/blogs')
 
-  console.log(response.body, 'response')
-
   response.body.forEach(blog => {
     assert.ok(blog.id, 'The field id must be defined')
     assert.strictEqual(blog._id, undefined, 'The field __id must not be defined')
   })
+})
+
+test('HTTP post create an unique blog', async () => {
+  const newBlog = {
+    title: 'Studing Jest and Test',
+    author: 'PipeToroC',
+    url: 'www.hotmail.com',
+    likes: 23
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  console.log(response, 'response')
+
+  const titles = response.body.map(blog => blog.title)
+  console.log(titles, 'contents')
+
+  assert.strictEqual(response.body.length, initialBlogs.length + 1)
+  assert(titles.includes('Studing Jest and Test'))
 })
 
 after(async () => {

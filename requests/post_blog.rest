@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+
+{
+    "title": "Studing Jest and Test",
+    "author": "PipeToroC",
+    "url": "www.hotmail.com",
+    "likes": 23
+}
