@@ -47,6 +47,7 @@ describe('get requests', () => {
     })
   })
 })
+
 test('HTTP post create an unique blog', async () => {
   const newBlog = {
     title: 'Studing Jest and Test',
@@ -69,22 +70,42 @@ test('HTTP post create an unique blog', async () => {
   assert(titles.includes('Studing Jest and Test'))
 })
 
-test('if the likes property does not exist the number of likes is 0', async () => {
-  const newBlog = {
-    title: 'Studing Jest and Test',
-    author: 'PipeToroC',
-    url: 'www.hotmail.com'
-  }
+describe('Creating a test with a default property', () => {
+  test('if the likes property does not exist the number of likes is 0', async () => {
+    const newBlog = {
+      title: 'Studing Jest and Test',
+      author: 'PipeToroC',
+      url: 'www.hotmail.com'
+    }
 
-  const responsePost = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+    const responsePost = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  assert.strictEqual(responsePost.body.likes, 0, 'likes shold default to 0')
+    assert.strictEqual(responsePost.body.likes, 0, 'likes should default to 0')
+  })
 })
 
+describe('Creating a valid blog', async () => {
+  test('Create a new blog with title and url', async () => {
+    const newBlog = {
+      title: 'Creating a new test',
+      author: 'felipetorocastilla',
+      url: 'theurlofmyblog.com'
+    }
+
+    const blogPosted = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    assert.ok(blogPosted.body.title, newBlog.title, 'The title should be present')
+    assert.ok(blogPosted.body.url, 'The URL should be present')
+  })
+})
 after(async () => {
   await mongoose.connection.close()
 })
