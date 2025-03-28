@@ -20,6 +20,10 @@ blogRouter.get('/:id', (request, response, next) => {
 blogRouter.post('/', async (request, response) => {
   const body = request.body
 
+  if (!body.title || !body.url) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,

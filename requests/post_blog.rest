@@ -2,7 +2,7 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "Studing Jest and Test",
+    "title": "My new blog",
     "author": "LauraCanba",
     "url": "www.hotmail.com"
 }
