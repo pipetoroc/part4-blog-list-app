@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -30,22 +30,23 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+describe('get requests', () => {
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-test('Unique identifier property of the blog is id', async () => {
-  const response = await api.get('/api/blogs')
+  test('Unique identifier property of the blog is id', async () => {
+    const response = await api.get('/api/blogs')
 
-  response.body.forEach(blog => {
-    assert.ok(blog.id, 'The field id must be defined')
-    assert.strictEqual(blog._id, undefined, 'The field __id must not be defined')
+    response.body.forEach(blog => {
+      assert.ok(blog.id, 'The field id must be defined')
+      assert.strictEqual(blog._id, undefined, 'The field __id must not be defined')
+    })
   })
 })
-
 test('HTTP post create an unique blog', async () => {
   const newBlog = {
     title: 'Studing Jest and Test',
@@ -61,13 +62,27 @@ test('HTTP post create an unique blog', async () => {
     .expect('Content-Type', /application\/json/)
 
   const response = await api.get('/api/blogs')
-  console.log(response, 'response')
 
   const titles = response.body.map(blog => blog.title)
-  console.log(titles, 'contents')
 
   assert.strictEqual(response.body.length, initialBlogs.length + 1)
   assert(titles.includes('Studing Jest and Test'))
+})
+
+test('if the likes property does not exist the number of likes is 0', async () => {
+  const newBlog = {
+    title: 'Studing Jest and Test',
+    author: 'PipeToroC',
+    url: 'www.hotmail.com'
+  }
+
+  const responsePost = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(responsePost.body.likes, 0, 'likes shold default to 0')
 })
 
 after(async () => {
