@@ -107,6 +107,25 @@ test('Delete a blog by id', async () => {
   assert(!titles.includes(blogToDelete.title))
 })
 
+test('Update a blog by id', async () => {
+  const blogsAtStart = await helper.blogsInDB()
+  const blogToUppdate = blogsAtStart[0]
+
+  const newBlogInfo = {
+    title: 'Este es mi nuevo blog',
+    author: 'Felipe Toro',
+    url: 'www.facebook.com',
+    likes: 1000
+  }
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${blogToUppdate.id}`)
+    .send(newBlogInfo)
+    .expect(200)
+
+  assert.strictEqual(updatedBlog.body.likes, 1000)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
