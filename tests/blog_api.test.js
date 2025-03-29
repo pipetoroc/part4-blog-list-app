@@ -1,32 +1,18 @@
 const { test, after, beforeEach, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
 const assert = require('node:assert')
 const Blog = require('../models/blog')
+const helper = require('./tests_helper')
 
+const app = require('../app')
 const api = supertest(app)
-
-const initialBlogs = [
-  {
-    title: 'Este es mi nuevo blog',
-    author: 'Felipe Toro',
-    url: 'www.facebook.com',
-    likes: 10
-  },
-  {
-    title: 'Un blog de programación',
-    author: 'Laura Toro',
-    url: 'www.snapchat.com',
-    likes: 23
-  }
-]
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(initialBlogs[0])
+  let blogObject = new Blog(helper.initialBlogs[0])
   await blogObject.save()
-  blogObject = new Blog(initialBlogs[1])
+  blogObject = new Blog(helper.initialBlogs[1])
   await blogObject.save()
 })
 
@@ -66,7 +52,7 @@ test('HTTP post create an unique blog', async () => {
 
   const titles = response.body.map(blog => blog.title)
 
-  assert.strictEqual(response.body.length, initialBlogs.length + 1)
+  assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
   assert(titles.includes('Studing Jest and Test'))
 })
 
@@ -106,6 +92,21 @@ describe('Creating a valid blog', async () => {
     assert.ok(blogPosted.body.url, 'The URL should be present')
   })
 })
+
+test('Delete a blog by id', async () => {
+  const blogsAtStart = await helper.blogsInDB()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDB()
+
+  const titles = blogsAtEnd.map(blog => blog.title)
+  assert(!titles.includes(blogToDelete.title))
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
