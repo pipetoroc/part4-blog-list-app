@@ -2,7 +2,18 @@ POST http://localhost:3003/api/users
 content-type: application/json
 
 {
-    "username": "ftoro-ca",
+    "username": "ftoro-ca2",
     "name": "Felipe Toro",
     "password": "secreto"
+}
+
+###
+
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+    "username": "ftoro-ca5",
+    "name": "Felipe Toro",
+    "password": "LapipePassword"
 }
