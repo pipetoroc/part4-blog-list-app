@@ -20,7 +20,7 @@ usersRouter.post('/', async (request, response) => {
   }
 
   const userExist = await User.findOne({ username })
-  if (userExist) return response.status(400).json({ error: 'The username already exist, try someone diferent' })
+  if (userExist) return response.status(409).json({ error: 'The username already exist, try someone diferent' })
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
