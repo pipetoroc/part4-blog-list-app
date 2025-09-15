@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "My new blog2",
+    "title": "test no Authorization: ",
     "author": "Felipe",
     "url": "www.hotmail.com",
-    "userId": "68c4694835f08b098b9a15d4"
+    "userId": "68c8279043ec2f8c75d12285"
 }
