@@ -1,5 +1,18 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZ0b3JvLWNhNSIsImlkIjoiNjhjODI3OTA0M2VjMmY4Yzc1ZDEyMjg1IiwiaWF0IjoxNzU3OTU1MTEwfQ.Sskwtu8qDVMsD5CRsBCwXtTKjYzdzBbGTOWinc1_AwI
+
+{
+    "title": "test with Authorization: 10",
+    "author": "Felipe",
+    "url": "www.hotmail.com",
+    "userId": "68c8279043ec2f8c75d12285"
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+content-type: application/json
 
 {
     "title": "test no Authorization: ",
