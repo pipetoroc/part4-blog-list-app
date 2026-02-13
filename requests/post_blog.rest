@@ -20,3 +20,11 @@ content-type: application/json
     "url": "www.hotmail.com",
     "userId": "68c8279043ec2f8c75d12285"
 }
+
+###
+POST http://localhost:3003/api/blogs/698baff725f381dbc3346bcd/comments
+content-type: application/json
+
+{
+    "comment": "This blog helped me a lot"
+}
